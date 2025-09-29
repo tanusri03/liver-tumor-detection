@@ -35,7 +35,7 @@ def show_result(img_path, prediction):
     plt.axis("off")
     plt.show()
 
-# Holoscan App (simplified wrapper)
+# Holoscan App
 class LiverTumorApp(holoscan.Application):
     def compose(self):
         # Simulate pipeline manually
@@ -46,7 +46,3 @@ class LiverTumorApp(holoscan.Application):
 if __name__ == "__main__":
 app = LiverTumorApp()
 app.run()
-
-if __name__ == "__main__":
-    app = LiverTumorApp()
-    app.run()
