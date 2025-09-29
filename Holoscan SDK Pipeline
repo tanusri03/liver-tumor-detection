@@ -1,0 +1,44 @@
+ main.py — Minimal Holoscan Pipeline
+-------------------------------------
+
+import holoscan as holoscan
+import numpy as np
+import cv2
+import onnxruntime as ort
+import matplotlib.pyplot as plt
+
+# Load the image (simulate CT scan)
+def load_image(path="ct_scan.png"):
+    img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+    img_resized = cv2.resize(img, (224, 224))  # depends on model input size
+    img_normalized = img_resized.astype(np.float32) / 255.0
+    img_tensor = np.expand_dims(np.expand_dims(img_normalized, axis=0), axis=0)  # Shape: (1, 1, 224, 224)
+    return img_tensor
+
+# Run ONNX inference
+def run_inference(img_tensor, model_path="model.onnx"):
+    session = ort.InferenceSession(model_path)
+    input_name = session.get_inputs()[0].name
+    outputs = session.run(None, {input_name: img_tensor})
+    return outputs[0]
+
+# Display result
+def show_result(img_path, prediction):
+    label = "Tumor Detected" if prediction > 0.5 else "No Tumor"
+    img = cv2.imread(img_path)
+    plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    plt.title(label)
+    plt.axis("off")
+    plt.show()
+
+# Holoscan App
+class LiverTumorApp(holoscan.Application):
+    def compose(self):
+        # Simulate pipeline manually
+        img_tensor = load_image("ct_scan.png")
+        result = run_inference(img_tensor)
+        show_result("ct_scan.png", result[0])
+
+if __name__ == "__main__":
+app = LiverTumorApp()
+app.run()
