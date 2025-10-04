@@ -1,2 +1,2 @@
 # liver-tumor-detection
-This project showcases a simple example of how biomedical engineers use imaging data to support diagnosis and research. Using publicly available CT scans of the liver, I highlighted potential tumor areas to illustrate how imaging can reveal important health information.
+This project showcases biology, technology, and data science by simulating liver tumor detection using publicly available CT scan images. It demonstrates how artificial intelligence and medical imaging can work together to identify potential tumors and support early disease detection. Using NVIDIA Holoscan SDK and a simple AI model, the project explores how image processing and data-driven algorithms can detect abnormalities in medical images.
